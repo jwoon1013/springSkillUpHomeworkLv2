@@ -11,7 +11,7 @@ public class Post extends TimeStamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; // 게시글의 id값
+    private Long postId; // 게시글의 id값
 
     @Column(nullable = false)
     private String title; // 게시글 제목
@@ -28,9 +28,8 @@ public class Post extends TimeStamped{
         this.content = content;
     }
 
-    public void update(String title, String username, String content) {
+    public void update(String title, String content) {
         this.title = title;
-        this.username = username;
         this.content = content;
     }
 

@@ -13,7 +13,7 @@ public class PostResponseDto {
 
     private LocalDateTime modifiedAt; //수정시간
 
-    private Long id; //id
+    private Long postId; //게시글 id
 
 
     private String title; //글제목
@@ -27,7 +27,7 @@ public class PostResponseDto {
     public PostResponseDto(Post post){
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-        this.id = post.getId();
+        this.postId = post.getPostId();
         this.title = post.getTitle();
         this.username = post.getUsername();
         this.content = post.getContent();

@@ -44,13 +44,13 @@
 # 3. API 명세서
 | 기능         | Method | URL          | Request                                    | Response                                                                |
 |------------|--------|--------------|--------------------------------------------|-------------------------------------------------------------------------|
-| 회원가입 (추가)  | POST   | /auth/signup | username, password                         | msg(회원가입 성공)                            |
-| 로그인 (추가)   | POST   | /auth/login  | username, password                         | msg(로그인 성공), header(Authorization:Bearer)            |
-| 게시글 작성     | POST   | /posts       | header(Authorization:Bearer), title, content | id, createdAt, modifiedAt, ttitle, content             |  
-| 전체게시글 목록조회 | GET    | /posts       | 없음                                         | totalPostList[ {id, createdAt, modifiedAt, ttitle, username, content} ] |  
-| 선택한 게시글 조회 | GET    | /posts/{id}  | 없음                                         | createdAt, modifiedAt, id, ttitle, username, content               |  
-| 선택한 게시글 수정 | PUT    | /posts/{id}  | header(Authorization:Bearer), title, content | id, createdAt, modifiedAt, ttitle, username, content             |  
-| 선택한 게시글 삭제 | DELETE | /posts/{id}  | header(Authorization:Bearer), id   | msg(게시글 삭제 성공)                                     |    
+| 회원가입 (추가)  | POST   | /auth/signup | username, password                         | msg(회원가입 성공)                                                            |
+| 로그인 (추가)   | POST   | /auth/login  | username, password                         | msg(로그인 성공), header(Authorization:Bearer)                               |
+| 게시글 작성     | POST   | /posts       | header(Authorization:Bearer), title, content | postId, createdAt, modifiedAt, ttitle, content                              |  
+| 전체게시글 목록조회 | GET    | /posts       | 없음                                         | totalPostList[ {postId, createdAt, modifiedAt, ttitle, username, content} ] |  
+| 선택한 게시글 조회 | GET    | /posts/{postId}  | 없음                                         | createdAt, modifiedAt, postId, ttitle, username, content                    |  
+| 선택한 게시글 수정 | PUT    | /posts/{postId}  | header(Authorization:Bearer), title, content | postId, createdAt, modifiedAt, ttitle, username, content                |  
+| 선택한 게시글 삭제 | DELETE | /posts/{postId}  | header(Authorization:Bearer), postId   | msg(게시글 삭제 성공)                                                          |    
 
 #  4. ERD
 
