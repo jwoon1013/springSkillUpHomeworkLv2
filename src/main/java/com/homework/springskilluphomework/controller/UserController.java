@@ -1,9 +1,9 @@
 package com.homework.springskilluphomework.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-public class PostController {
+public class UserController {
 }
