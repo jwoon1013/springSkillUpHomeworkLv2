@@ -52,7 +52,7 @@
 | 선택한 게시글 삭제 | DELETE | /posts/{postId}  | header(Authorization:Bearer), postId   | msg(게시글 삭제 성공)                                                          |    
 
 #  4. ERD
-
+![ERD](/ERD.png)
 
 # 5. 느낀 점
 - 회원가입 할때, 회원 생성하고 DB에 담고, "회원가입 완료" 메세지까지 잘 돌아오는데, 500 에러를 띄우는 문제가 있었음.  
