@@ -17,20 +17,20 @@ public class Post extends TimeStamped{
     private String title; // 게시글 제목
 
     @Column(nullable = false)
-    private String author;
+    private String username; // 게시글 작성자 = 유저명 그대로 사용
 
     @Column(nullable = false)
-    private String content;
+    private String content; // 게시글 내용
 
-    public Post(String title, String author, String content, String password) {
+    public Post(String title, String username, String content) {
         this.title = title;
-        this.author = author;
+        this.username = username;
         this.content = content;
     }
 
-    public void update(String title, String author, String content) {
+    public void update(String title, String username, String content) {
         this.title = title;
-        this.author = author;
+        this.username = username;
         this.content = content;
     }
 

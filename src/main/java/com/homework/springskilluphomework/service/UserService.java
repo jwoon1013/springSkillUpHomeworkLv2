@@ -1,4 +1,4 @@
 package com.homework.springskilluphomework.service;
 
-public class MemberService {
+public class UserService {
 }
