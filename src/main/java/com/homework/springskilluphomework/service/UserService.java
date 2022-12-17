@@ -31,9 +31,8 @@ public class UserService {
         // 유저 생성 후 DB에 저장
         User user = new User(username, password);
         userRepository.save(user);
-        return "회원가입 완료!";
 
-
+        return "회원가입 성공";
     }
 
     @Transactional(readOnly = true) // 로그인

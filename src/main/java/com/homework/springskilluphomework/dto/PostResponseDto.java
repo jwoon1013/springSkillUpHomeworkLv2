@@ -3,10 +3,13 @@ package com.homework.springskilluphomework.dto;
 import com.homework.springskilluphomework.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+
+@Setter
 @NoArgsConstructor
 public class PostResponseDto {
     private LocalDateTime createdAt; //작성시간
