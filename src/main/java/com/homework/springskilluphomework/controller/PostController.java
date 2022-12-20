@@ -51,7 +51,7 @@ public class PostController {
         return postService.updatePost(postId, postrequestDto, username);
     }
 
-    // 선택한 게시글 삭제
+    // 선택한 게시글 삭제 (lv2 리펙토링)
     @DeleteMapping("posts/{postId}")
     public String deletePost(@PathVariable Long postId, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);

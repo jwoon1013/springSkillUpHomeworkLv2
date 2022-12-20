@@ -24,6 +24,8 @@ public class Post extends TimeStamped{
     @Column(nullable = false)
     private String content; // 게시글 내용
 
+    private List<Comment> commentList; // 게시글에 달린 댓글 리스트
+
     public Post(String title, String username, String content) {
         this.title = title;
         this.username = username;
