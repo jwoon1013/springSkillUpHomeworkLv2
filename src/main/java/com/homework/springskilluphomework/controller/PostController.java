@@ -2,8 +2,11 @@ package com.homework.springskilluphomework.controller;
 
 import com.homework.springskilluphomework.dto.PostRequestDto;
 import com.homework.springskilluphomework.dto.PostResponseDto;
+import com.homework.springskilluphomework.entity.User;
+import com.homework.springskilluphomework.jwt.JwtUtil;
 import com.homework.springskilluphomework.service.PostService;
 import com.homework.springskilluphomework.service.UserService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     // 전체 게시글 목록 조회
     @GetMapping("/posts")
@@ -40,9 +44,9 @@ public class PostController {
         // 여기서 뭐가 안되가지고(계속 static이어야 한다고 요구함) 한참 해맸는데, PostService 로 써놔서 그런거였음 -_-;
     }
 
+    // 선택한 게시글 삭제
     @DeleteMapping("posts/{postId}")
     public String deletePost(@PathVariable Long postId, HttpServletRequest request){
         return postService.deletePost(postId, request);
     }
-
 }
