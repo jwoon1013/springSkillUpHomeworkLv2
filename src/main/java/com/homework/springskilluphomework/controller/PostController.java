@@ -54,7 +54,9 @@ public class PostController {
     // 선택한 게시글 삭제
     @DeleteMapping("posts/{postId}")
     public String deletePost(@PathVariable Long postId, HttpServletRequest request) {
-        return postService.deletePost(postId, request);
+        String token = jwtUtil.resolveToken(request);
+        String username = tokenCheckService.checkToken(token);
+        return postService.deletePost(postId, username);
     }
 
 }
