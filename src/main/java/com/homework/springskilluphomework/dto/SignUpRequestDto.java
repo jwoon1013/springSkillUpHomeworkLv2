@@ -16,4 +16,14 @@ public class SignUpRequestDto {
     @Size(min= 8, max=15)
     @Pattern(regexp="^[a-zA-Z0-9!@#$%^&*()]*$")
     private String password; // 유저비번(최소 8자 이상, 15자 이하이며 알파벳 대소문자(a~z, A~Z), 숫자(0~9))
+
+    private Boolean admin = false; // 관리자 권한 (기본값 : false)
+
+    private String adminToken = ""; // 관리자 권한 코드
+
+
+    public boolean wantToAdmin(){
+        return this.getAdmin();
+    }
+
 }

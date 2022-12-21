@@ -3,6 +3,7 @@ package com.homework.springskilluphomework.service;
 import com.homework.springskilluphomework.dto.LogInRequestDto;
 import com.homework.springskilluphomework.dto.SignUpRequestDto;
 import com.homework.springskilluphomework.entity.User;
+import com.homework.springskilluphomework.entity.UserRoleEnum;
 import com.homework.springskilluphomework.jwt.JwtUtil;
 import com.homework.springskilluphomework.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
+    private final String ADMIN_TOKEN = "wp4ZE4N1krjMY6hryuqmCg0QuDLEG06P14o";
+
     @Transactional // 회원가입
     public String signUp(SignUpRequestDto signUpRequestDto) {
         String username = signUpRequestDto.getUsername();
@@ -28,8 +31,20 @@ public class UserService {
         if(found.isPresent()){
             throw new IllegalArgumentException("유저명이 중복되었습니다.");
         }
+
+        // 회원 권한 확인
+        UserRoleEnum userRole = UserRoleEnum.USER;
+        if(signUpRequestDto.wantToAdmin()){
+            if(!signUpRequestDto.getAdminToken().equals(ADMIN_TOKEN)){
+                throw new IllegalArgumentException("관리자 암호가 틀려서 관리자 등록이 불가합니다.");
+            }
+            userRole = UserRoleEnum.ADMIN;
+        }
+
+
+
         // 유저 생성 후 DB에 저장
-        User user = new User(username, password);
+        User user = new User(username, password, userRole);
         userRepository.save(user);
 
         return "회원가입 성공";
