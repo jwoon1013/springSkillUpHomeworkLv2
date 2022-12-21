@@ -61,7 +61,7 @@ public class PostService {
                 () -> new RuntimeException("해당 postId 의 포스트가 존재하지 않습니다.")
         );
         // 2. 해당 유저가 작성한 포스트가 맞는지 검사 > 맞으면 수정 진행
-        if (post.getUsername().equals(username)) {
+        if (post.CheckUsernameIsAuthor(username)) {
             post.update(postrequestDto.getTitle(), postrequestDto.getContent());
         } else throw new RuntimeException("본인이 작성한 게시글만 수정할 수 있습니다.");
 
@@ -82,7 +82,7 @@ public class PostService {
             );
 
         // 3. 해당 유저가 작성한 포스트가 맞는지 검사 > 맞으면 삭제 진행
-            if (post.getUsername().equals(user.getUsername())) {
+            if (post.CheckUsernameIsAuthor(user.getUsername())) {
                 postRepository.deleteById(postId);
             } else throw new RuntimeException("본인이 작성한 게시글만 삭제할 수 있습니다.");
 

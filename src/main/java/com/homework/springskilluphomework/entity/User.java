@@ -32,4 +32,9 @@ public class User {
         this.password = password;
         this.role = UserRoleEnum.USER;
     }
+
+    // 비밀번호 체크 기능
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
 }

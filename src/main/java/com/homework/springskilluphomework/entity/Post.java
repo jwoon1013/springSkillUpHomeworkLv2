@@ -37,5 +37,10 @@ public class Post extends TimeStamped{
         this.content = content;
     }
 
+    // 비밀번호 확인
+    public boolean CheckUsernameIsAuthor(String username){
+        return this.getUsername().equals(username);
+    }
+
 
 }

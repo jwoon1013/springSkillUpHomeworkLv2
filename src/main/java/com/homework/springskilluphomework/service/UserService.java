@@ -46,13 +46,13 @@ public class UserService {
         );
 
         // 2. 비밀번호 확인
-        if(!user.getPassword().equals(password)){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
+        if(user.checkPassword(logInRequestDto.getPassword())){
+            // 3. 헤더에 올리기
+            response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
 
-        // 3. 헤더에 올리기
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
+            return "로그인 완료!";
+        } else throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 
-        return "로그인 완료!";
+
     }
 }
