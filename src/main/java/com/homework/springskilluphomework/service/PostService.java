@@ -7,8 +7,6 @@ import com.homework.springskilluphomework.entity.User;
 import com.homework.springskilluphomework.jwt.JwtUtil;
 import com.homework.springskilluphomework.repository.PostRepository;
 import com.homework.springskilluphomework.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +35,7 @@ public class PostService {
             User user = userRepository.findByUsername(username).orElseThrow(
                     () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
             );
+
             // 4. 토큰값이 유효한 회원만 게시글 작성 가능.
             Post post = postRequestDto.toEntity(user.getUsername());
             postRepository.save(post);
@@ -88,4 +87,4 @@ public class PostService {
 
         return "게시글 삭제 성공!";
     }
-}// postservice 클래스의 끝
+}// postService 클래스의 끝
