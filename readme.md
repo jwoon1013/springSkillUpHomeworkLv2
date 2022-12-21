@@ -70,8 +70,8 @@
 | 선택한 게시글 조회 | GET    | /posts/{postId}             | 없음                                           | createdAt, modifiedAt, postId, ttitle, username, content, comment List                   |  
 | 선택한 게시글 수정 | PUT    | /posts/{postId}             | header(Authorization:Bearer), title, content | postId, createdAt, modifiedAt, ttitle, username, content                                 |  
 | 선택한 게시글 삭제 | DELETE | /posts/{postId}             | header(Authorization:Bearer)                 | msg(게시글 삭제 성공), statusCode                                                               |
-| 댓글 작성      | POST   | /posts/{postId}             | header(Authorization:Bearer), commentContent | commentId, CreatedAt, modifiedAt, commentContent                                         |
-| 댓글 수정      | PUT    | /posts/{postId}/{commentId} | header(Authorization:Bearer), commentContent | commentId, CreatedAt, modifiedAt, commentContent                                         |
+| 댓글 작성      | POST   | /posts/{postId}             | header(Authorization:Bearer), commentContent | postId, ommentId, CreatedAt, modifiedAt, commentContent                                  |
+| 댓글 수정      | PUT    | /posts/{postId}/{commentId} | header(Authorization:Bearer), commentContent | postId, commentId, CreatedAt, modifiedAt, commentContent                                 |
 | 댓글 삭제      | DELETE | /posts/{postId}/{commentId} | header(Authorization:Bearer)                 |                                                                                          |
 
 
@@ -81,3 +81,9 @@
 - 숙련과제 LV2 때 작성한 ERD
 
 # 5. 느낀 점
+- 코드 리펙토링을 하니 확실히 가독성이 좋아진걸 느꼈다. 메소드 하나가 하나의 역할만 하도록 하는 것. 개념은 알겠는데, 실제로 코드로 구현하기는 좀 어렵지만, 구현하니까 좋다는건 확실히 알겠다.
+- comment와 post사이의 연결관계를 만드는게 어려워서 많이 해맸다. JPA에 대해 더 공부해야할 것 같다.
+- 이번 LV2 과제 느낀점 : 나는 내가 꽤 이해했다고 생각했는데, 과제 해보니.. 나는 모른다는 것을 알았다. 이래서 직접 코딩해보는게 백날 자료랑 강의만 보는거보다 낫다고 하는거같다...
+
+# 6. 현재 진행도
+

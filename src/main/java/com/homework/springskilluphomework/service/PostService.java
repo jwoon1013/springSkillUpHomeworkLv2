@@ -31,15 +31,15 @@ public class PostService {
 
     @Transactional // 게시글 작성 (lv2 수정)
     public PostResponseDto createPost(PostRequestDto postRequestDto, String username) {
-            // 3. 토큰에서 가져온 사용자 정보로 DB에서 해당유저 찾아서 사용할 유저 객체 생성
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
-            );
+        // 3. 컨트롤러에서 받아온 username 으로 User 생성
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
+        );
 
-            // 4. 토큰값이 유효한 회원만 게시글 작성 가능.
-            Post post = postRequestDto.toEntity(user.getUsername());
-            postRepository.save(post);
-            return new PostResponseDto(post);
+        // 4. post 작성 후 레파지토리 저장. PostResposneDto 생성 후 리턴
+        Post post = postRequestDto.toEntity(user.getUsername());
+        postRepository.save(post);
+        return new PostResponseDto(post);
     } // create post 종료
 
     @Transactional(readOnly = true) //선택한 게시글 조회
@@ -59,12 +59,24 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new RuntimeException("해당 postId 의 포스트가 존재하지 않습니다.")
         );
-        // 2. 해당 유저가 작성한 포스트가 맞는지 검사 > 맞으면 수정 진행
-        if (post.CheckUsernameIsAuthor(username)) {
-            post.update(postrequestDto.getTitle(), postrequestDto.getContent());
-        } else throw new RuntimeException("본인이 작성한 게시글만 수정할 수 있습니다.");
+        // 2. 유저 생성
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
+        );
 
-        // 3. PostResponseDto 생성후 리턴
+        // 3. user가 관리자인지, User인지 확인, 관리자면 수정 바로 진행.
+        switch (user.getUserRole()) {
+            case ADMIN:
+                post.update(postrequestDto.getTitle(), postrequestDto.getContent());
+                break;
+            case USER:
+                // 4. 게시글 작성자와 유저네임 일치하나 검사 > 맞으면 삭제 진행
+                if (post.CheckUsernameIsAuthor(username)) {
+                    post.update(postrequestDto.getTitle(), postrequestDto.getContent());
+                } else throw new RuntimeException("본인이 작성한 게시글만 수정할 수 있습니다.");
+                break;
+        }
+        // 5. PostResponseDto 생성후 리턴
         PostResponseDto postResponseDto = new PostResponseDto(post);
         return postResponseDto;
     } // updatePost 종료
@@ -75,16 +87,22 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new RuntimeException("해당 postId 의 포스트가 존재하지 않습니다.")
         );
-            // 2. 유저 생성 (5 에서 유저네임 써야해서.. 이걸 안해도 될거같은데 방법을 모르겠음)
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
-            );
-
-        // 3. 해당 유저가 작성한 포스트가 맞는지 검사 > 맞으면 삭제 진행
-            if (post.CheckUsernameIsAuthor(user.getUsername())) {
+        // 2. 유저 생성
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
+        );
+        // 3. 관리자인지 유저인지 확인 > 관리자일시 바로 삭제 진행
+        switch (user.getUserRole()) {
+            case ADMIN:
                 postRepository.deleteById(postId);
-            } else throw new RuntimeException("본인이 작성한 게시글만 삭제할 수 있습니다.");
-
+                break;
+            case USER:
+                // 3. 게시글 작성자와 유저네임 일치하나 검사 > 맞으면 삭제 진행
+                if (post.CheckUsernameIsAuthor(user.getUsername())) {
+                    postRepository.deleteById(postId);
+                } else throw new RuntimeException("본인이 작성한 게시글만 삭제할 수 있습니다.");
+                break;
+        }
         return "게시글 삭제 성공!";
     }
 }// postService 클래스의 끝

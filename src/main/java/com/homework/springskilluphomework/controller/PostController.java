@@ -7,7 +7,6 @@ import com.homework.springskilluphomework.jwt.JwtUtil;
 import com.homework.springskilluphomework.service.PostService;
 import com.homework.springskilluphomework.service.TokenCheckService;
 import com.homework.springskilluphomework.service.UserService;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

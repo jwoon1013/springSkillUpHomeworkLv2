@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
     private final UserService userService;
 
-    @ResponseBody // 어노테이션을 달아주니 500 해결됨 !
+    @ResponseBody
     @PostMapping("/signup")
     public String signUp(@RequestBody @Valid SignUpRequestDto signUpRequestDto){
         return userService.signUp(signUpRequestDto);
