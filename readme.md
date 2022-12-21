@@ -102,9 +102,14 @@
 - 비밀번호 조건변경 (특수문자추가)
 
 
-- 댓글 작성기능 구현  
-- Post에 댓글 리스트추가 연관관계구현</s>  
-- 댓글 수정 기능 구현  
-- 댓글 삭제 기능 구현  
+- 댓글 작성기능 구현  </s>
+- Post에 댓글 리스트추가 연관관계구현 :: 현재 오류 발생중...!  
+  <s>
+ - 댓글 수정 기능 구현  
+- 댓글 삭제 기능 구현  </s>
 
 - 오류시 statusCode와 특정 메세지를 뱉어내게 수정하기
+- 현재 post < - > comment 간 연관관계 구현에서 에러 발생 중.
+  1.  post 생성 됨. comment 생성됨. 개별 코멘트, 개별 post 조회가능.
+  2. comment가 달린 post 로딩시 HttpMessageNotWritableException: Could not write JSON: Infinite recursion (StackOverflowError) 발생중.
+  3. 전체 comment 로드시 작성한 모든 comment 보임. but 연관관계 관련된거 로드시 에러발생. DB POST에도 commentList없음(post 생성시 빈 리스트는 나옴). 연관관계 문제로 추정중.  
