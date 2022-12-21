@@ -27,7 +27,7 @@ public class Post extends TimeStamped{
     private String content; // 게시글 내용
 
     @Column
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true) // 야는 왜 final이고 싶어하는거지...?
+    @OneToMany(mappedBy = "commentId", cascade = CascadeType.REMOVE, orphanRemoval = true) // 야는 왜 final이고 싶어하는거지...?
     private List<Comment> commentList = new ArrayList<Comment>(); // 게시글에 달린 댓글의 리스트
 
     public Post(String title, String username, String content) {
@@ -41,8 +41,8 @@ public class Post extends TimeStamped{
         this.content = content;
     }
 
-    // 비밀번호 확인
-    public boolean CheckUsernameIsAuthor(String username){
+    // 작성자일치 여부 확인
+    public boolean checkUsernameIsAuthor(String username){
         return this.getUsername().equals(username);
     }
 

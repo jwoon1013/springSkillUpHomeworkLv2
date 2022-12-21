@@ -8,9 +8,7 @@ import com.homework.springskilluphomework.service.TokenCheckService;
 import com.homework.springskilluphomework.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,12 +19,26 @@ public class CommentController {
     private final JwtUtil jwtUtil;
 
     // 댓글 작성
-    public CommentResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request){
+    @PostMapping("/posts/{postId}")
+    public CommentResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         String username = tokenCheckService.checkToken(token);
         return commentService.createComment(postId, commentRequestDto, username);
     }
 
     // 댓글 수정
+    @PutMapping("/posts/{postId}/{commentId}")
+    public CommentResponseDto updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        String username = tokenCheckService.checkToken(token);
+        return commentService.updateComment(postId, commentId, commentRequestDto, username);
+    }
+
     // 댓글 삭제
+    @DeleteMapping("/posts/{postId}/{commentId}")
+    public String updateComment(@PathVariable Long postId, @PathVariable Long commentId, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        String username = tokenCheckService.checkToken(token);
+        return commentService.deleteComment(postId, commentId, username);
+    }
 }

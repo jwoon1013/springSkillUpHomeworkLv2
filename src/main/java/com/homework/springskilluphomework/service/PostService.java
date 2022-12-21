@@ -25,8 +25,7 @@ public class PostService {
     @Transactional(readOnly = true) // 전체 게시글 목록 조회 (이건 토큰인증 안해도 누구나 볼수잇어)
     public List<PostResponseDto> getPostList() {
         List<Post> list = postRepository.findAllByOrderByModifiedAtDesc();
-        List<PostResponseDto> totalPostList = list.stream().map(post -> new PostResponseDto(post)).collect(Collectors.toList());
-        return totalPostList;
+        return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
     } // getPostList 종료
 
     @Transactional // 게시글 작성 (lv2 수정)
@@ -71,14 +70,13 @@ public class PostService {
                 break;
             case USER:
                 // 4. 게시글 작성자와 유저네임 일치하나 검사 > 맞으면 삭제 진행
-                if (post.CheckUsernameIsAuthor(username)) {
+                if (post.checkUsernameIsAuthor(username)) {
                     post.update(postrequestDto.getTitle(), postrequestDto.getContent());
                 } else throw new RuntimeException("본인이 작성한 게시글만 수정할 수 있습니다.");
                 break;
         }
         // 5. PostResponseDto 생성후 리턴
-        PostResponseDto postResponseDto = new PostResponseDto(post);
-        return postResponseDto;
+        return new PostResponseDto(post);
     } // updatePost 종료
 
     // 선택한 게시글 삭제
@@ -98,7 +96,7 @@ public class PostService {
                 break;
             case USER:
                 // 3. 게시글 작성자와 유저네임 일치하나 검사 > 맞으면 삭제 진행
-                if (post.CheckUsernameIsAuthor(user.getUsername())) {
+                if (post.checkUsernameIsAuthor(user.getUsername())) {
                     postRepository.deleteById(postId);
                 } else throw new RuntimeException("본인이 작성한 게시글만 삭제할 수 있습니다.");
                 break;
