@@ -1,7 +1,10 @@
 package com.homework.springskilluphomework.service;
 
+import com.homework.springskilluphomework.dto.CommentRequestDto;
+import com.homework.springskilluphomework.dto.CommentResponseDto;
 import com.homework.springskilluphomework.dto.PostRequestDto;
 import com.homework.springskilluphomework.dto.PostResponseDto;
+import com.homework.springskilluphomework.entity.Comment;
 import com.homework.springskilluphomework.entity.Post;
 import com.homework.springskilluphomework.entity.User;
 import com.homework.springskilluphomework.jwt.JwtUtil;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +28,9 @@ public class PostService {
 
     @Transactional(readOnly = true) // 전체 게시글 목록 조회 (이건 토큰인증 안해도 누구나 볼수잇어)
     public List<PostResponseDto> getPostList() {
-        List<Post> list = postRepository.findAllByOrderByModifiedAtDesc();
-        return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
+        List<Post> totalPostList = postRepository.findAllByOrderByModifiedAtDesc();
+        List<PostResponseDto> totalPostResponseDtoList = totalPostList.stream().map(Post::makePostResponseDto).toList();
+        return totalPostResponseDtoList;
     } // getPostList 종료
 
     @Transactional // 게시글 작성 (lv2 수정)
@@ -38,7 +43,8 @@ public class PostService {
         // 4. post 작성 후 레파지토리 저장. PostResposneDto 생성 후 리턴
         Post post = postRequestDto.toEntity(user.getUsername());
         postRepository.save(post);
-        return new PostResponseDto(post);
+
+        return post.makePostResponseDto();
     } // create post 종료
 
     @Transactional(readOnly = true) //선택한 게시글 조회
@@ -46,9 +52,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new RuntimeException("id값이 일치하는 게시글이 없습니다.")
         );
-        PostResponseDto postResponseDto = new PostResponseDto(post);
-
-        return postResponseDto;
+        return post.makePostResponseDto();
     } // getPost 종료
 
 
@@ -76,7 +80,8 @@ public class PostService {
                 break;
         }
         // 5. PostResponseDto 생성후 리턴
-        return new PostResponseDto(post);
+        //post에서 하나씩 하나씩 원소 떼서 postResposnedto에 넣어줘야해....
+        return new PostResponseDto();
     } // updatePost 종료
 
     // 선택한 게시글 삭제

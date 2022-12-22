@@ -1,7 +1,7 @@
 package com.homework.springskilluphomework.dto;
 
-import com.homework.springskilluphomework.entity.Comment;
-import com.homework.springskilluphomework.entity.Post;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostResponseDto {
     private LocalDateTime createdAt; //작성시간
 
@@ -27,17 +28,7 @@ public class PostResponseDto {
 
     private String content; //글내용
 
-    private List<Comment> commentList; // 댓글리스트
-
-    public PostResponseDto(Post post){
-        this.createdAt = post.getCreatedAt();
-        this.modifiedAt = post.getModifiedAt();
-        this.postId = post.getPostId();
-        this.title = post.getTitle();
-        this.username = post.getUsername();
-        this.content = post.getContent();
-        this.commentList = post.getCommentList();
-    }
+    private List<CommentResponseDto> commentResponseDtoList; // 댓글리스트
 
 }
 

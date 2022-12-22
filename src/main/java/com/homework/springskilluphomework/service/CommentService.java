@@ -35,8 +35,9 @@ public class CommentService {
         //3. Comment 생성 후, comment레파지토리에 저장 /해당 포스트의 commentlist에 저장  /CommentResponseDto 생성 후 리턴
         Comment comment = commentRequestDto.toEntity(post, username);
         commentRepository.save(comment);
-        post.getCommentList().add(comment);
-        return new CommentResponseDto(comment);
+        CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
+        post.addCommentInOwnCommentList(comment);
+        return commentResponseDto;
     }
 
     @Transactional

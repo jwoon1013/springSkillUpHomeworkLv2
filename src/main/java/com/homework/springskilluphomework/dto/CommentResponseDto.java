@@ -21,13 +21,13 @@ public class CommentResponseDto {
 
     private String content; // 댓글 내용
 
-    public CommentResponseDto(Comment comment){
-        this.createdAt = comment.getCreatedAt();
-        this.modifiedAt = comment.getModifiedAt();
-        this.postId =comment.getPost().getPostId();
-        this.commentId=comment.getCommentId();
-        this.commentAuthorName=comment.getUsername();
-        this.content= comment.getCommentContent();
+    public CommentResponseDto(LocalDateTime createdAt, LocalDateTime modifiedAt, Long postId, Long commentId, String commentAuthorName, String CommentContent){
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.postId =postId;
+        this.commentId=commentId;
+        this.commentAuthorName=commentAuthorName;
+        this.content=CommentContent;
     }
 
 }

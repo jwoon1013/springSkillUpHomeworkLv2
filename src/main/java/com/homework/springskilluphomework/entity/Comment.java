@@ -1,5 +1,6 @@
 package com.homework.springskilluphomework.entity;
 
+import com.homework.springskilluphomework.dto.CommentResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,8 @@ public class Comment extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commentId; // 댓글의 고유 댓글id값
 
-    @ManyToOne
-    @JoinColumn(name = "postId", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // 포스트랑 연결이 안돼.......
+    @JoinColumn(name = "POST_ID", nullable = false)
     private Post post; // 댓글이 소속된 post
 
     @Column(nullable = false)
@@ -35,5 +36,9 @@ public class Comment extends TimeStamped {
 
     // 댓글 작성자 일치 여부 확인
     public boolean checkUsernameIsCommentAuthor(String username){return this.getUsername().equals(username);}
+
+    public CommentResponseDto makeCommentResponseDto(){
+        return new CommentResponseDto();
+    }
 
 }
