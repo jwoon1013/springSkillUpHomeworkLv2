@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -37,8 +39,18 @@ public class Comment extends TimeStamped {
     // 댓글 작성자 일치 여부 확인
     public boolean checkUsernameIsCommentAuthor(String username){return this.getUsername().equals(username);}
 
+    //comment로 CommentResponseDto 만드는 메소드
     public CommentResponseDto makeCommentResponseDto(){
-        return new CommentResponseDto();
+        LocalDateTime toDtoCreatedAt = this.getCreatedAt();
+        LocalDateTime toDtoModifiedAt = this.getModifiedAt();
+        Long toDtoPostId = this.getPost().getPostId();
+        Long toDtoCommentId = this.getCommentId();
+        String toDtoCommentAuthorName = this.getUsername();
+        String toDtoCommentContent = this.getCommentContent();
+
+        return new CommentResponseDto(toDtoCreatedAt,toDtoModifiedAt,toDtoPostId,toDtoCommentId,toDtoCommentAuthorName,toDtoCommentContent);
     }
+
+
 
 }

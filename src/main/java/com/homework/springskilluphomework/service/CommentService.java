@@ -2,7 +2,6 @@ package com.homework.springskilluphomework.service;
 
 import com.homework.springskilluphomework.dto.CommentRequestDto;
 import com.homework.springskilluphomework.dto.CommentResponseDto;
-import com.homework.springskilluphomework.dto.PostResponseDto;
 import com.homework.springskilluphomework.entity.Comment;
 import com.homework.springskilluphomework.entity.Post;
 import com.homework.springskilluphomework.entity.User;
@@ -22,7 +21,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final JwtUtil jwtUtil;
 
-    @Transactional
+    @Transactional // 댓글 작성
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, String username) {
         //1. 해당 postId의 포스트가 있는지 확인
         Post post = postRepository.findById(postId).orElseThrow(
@@ -35,7 +34,7 @@ public class CommentService {
         //3. Comment 생성 후, comment레파지토리에 저장 /해당 포스트의 commentlist에 저장  /CommentResponseDto 생성 후 리턴
         Comment comment = commentRequestDto.toEntity(post, username);
         commentRepository.save(comment);
-        CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
+        CommentResponseDto commentResponseDto = comment.makeCommentResponseDto();
         post.addCommentInOwnCommentList(comment);
         return commentResponseDto;
     }
@@ -69,7 +68,7 @@ public class CommentService {
                 break;
         }
         //4. CommentResponseDto 리턴
-        return new CommentResponseDto(comment);
+        return comment.makeCommentResponseDto();
     }
 
     @Transactional
